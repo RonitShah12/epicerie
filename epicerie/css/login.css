@@ -60,20 +60,15 @@ body{
     margin-top: 20%;    
 }
 
-
-.button:hover{
-    border: 1px solid black;
-}
-
 #password{
     display: block;
 }
 
 #login_wrapper{
-    left: 41%;    
+    margin: auto;
 }
 
-#login_wrapper > input{
+.input_wrapper > input[type="text"], .input_wrapper > input[type="password"]{
     padding: 5%;
 
     font-size: 3vh;
@@ -88,6 +83,6 @@ body{
     outline: none;
 }
 
-#login_wrapper > input:focus{
+.input_wrapper > input[type="text"]:focus, .input_wrapper > input[type="password"]:focus {
     background-color: rgba(255, 255, 255, 0.61);
 }

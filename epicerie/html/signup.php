@@ -1,7 +1,7 @@
 <?php
 
     $uname = $_GET["username"];
-    $pass = $_GET["pass"];
+    $pass = $_GET["password"];
 
     $conn = new mysqli("localhost:3306", "root", "", "epicerie");
 

@@ -1,13 +1,13 @@
 <?php
 
     $uname = $_GET["username"];
-    $pass = $_GET["pass"];
+    $pass = $_GET["password"];
 
     $conn = new mysqli("localhost:3306", "root", "", "epicerie");
 
     $pass = hash("md5", $pass);
 
-    $sql = "SELECT * from login where username='$uname' and password='$pass'";
+    $sql = "SELECT * FROM login WHERE BINARY username='$uname' and password='$pass'";
     $result = $conn->query($sql);    
 
     if( !$result ){
@@ -15,9 +15,9 @@
     }
 
     if($result->num_rows > 0){
-        echo "present";
+        echo "shopping.php";
     }else{
-        echo "not present";
+        echo "0";
     }
     
     $conn->close();
