@@ -49,7 +49,11 @@ login_next_button.addEventListener("click", function(){
 			}else{
 				login_wrapper.style.display="none"
 
-				console.log(window.location.origin+"/epicerie/html/"+t)
+				var anchor=document.createElement("a")
+				anchor.className="finallink"
+				anchor.innerText="Shop Now!"
+				anchor.href=t
+				document.body.appendChild(anchor)
 			}
 		})
 	})
