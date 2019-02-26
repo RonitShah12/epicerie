@@ -16,6 +16,7 @@
 
     if($result->num_rows > 0){
         echo "shopping.php";
+        
     }else{
         echo "0";
     }

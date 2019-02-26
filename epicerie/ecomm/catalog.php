@@ -19,7 +19,7 @@
 		if($recipe_flag or $price_flag or $description_flag){
 			echo "<div class ='item'>";
 
-				echo "<img class='prompt' src='".$row['img']."'/>";			
+				echo "<img class='prompt' src='/epicerie/res/".$row['img']."'/>";			
 
 				echo "<div class='item_desc'>";
 					echo "<span class = 'name'>".$row['recipe']."</span>";
