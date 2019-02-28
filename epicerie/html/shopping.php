@@ -31,7 +31,7 @@
 
 		.price{
 			color: green;			
-		}
+7		}
 
 		#search{
 			padding: 3px 5px 5px 5px;
@@ -53,6 +53,15 @@
 
 		.add_button:hover{
 			cursor: pointer;
+		}
+
+		#trolley{
+			height: 5vh;
+			width: 5vh;
+
+			position: absolute;
+			right: 1%;
+			top: 1%;
 		}
 	</style>
 </head>
@@ -82,11 +91,19 @@
 	<input type="text" name="query">
 	<span id="search" onclick = "fetchDataWithKeyword()">&#x1F50D;</span>
 
+	<img id="trolley" src="../res/shopping_trolley.png" />
+
+	<div id = "cart_container">
+		
+	</div>
+
 	<div id ="container">
 		
 	</div>
 
 	<script>
+
+
 		function fetchDataWithKeyword(){
 
 			var selectedCuisine = document.getElementsByTagName("select")[0].value
@@ -120,8 +137,12 @@
 			})
 		}
 
-		function addToShoppingCart(e){
-			console.log(e.srcElement.getAttribute("data-item"))
+		function addToShoppingCart(e){							
+			fetch("cart.php?item="+e.srcElement.getAttribute("data-item")+"&num="+1).then(function(data){
+				data.text().then(function(status){
+					console.log(JSON.parse(status))
+				})
+			})
 		}
 	</script>
 </body>
