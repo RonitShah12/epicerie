@@ -3,6 +3,11 @@
 <head>
 	<title></title>
 	<style>
+		*{
+			margin: 0;	
+			padding: 0;
+		}
+
 		.prompt{
 			height: 15vh;
 			width: 15vw;
@@ -26,7 +31,7 @@
 		}
 
 		.name{
-			font-weight: bolder;
+			font-weight: bold;
 		}
 
 		.price{
@@ -63,6 +68,80 @@
 			right: 1%;
 			top: 1%;
 		}
+
+		#overlay{
+			height: 100vh;
+			width: 100vw;
+			background-color: rgba(125, 125, 125, 0.5);
+			position: fixed;
+			top: 0%;
+			left: 0%;
+
+			display: none;
+		}
+
+		#checkout{
+			background-color: white;
+			height: auto;
+			width: 30vw;
+
+			padding: 10px;
+
+			display: none;
+
+			position: fixed;
+			top: 10%;
+			left: 35%;
+		}
+
+		#checkout_list{
+			display: flex;
+			flex-direction: column;
+		}
+
+		.record_container{
+			display: flex;			
+			flex: 1;
+		}
+
+		.item_name{
+			flex: 0.4;
+		}
+		.quantity{
+			display: flex;
+			justify-content: center;		
+			flex: 0.2;
+		}
+		.pip{
+			display: flex;
+			justify-content: center;
+			flex: 0.2;
+		}
+		.sub_total{
+			display: flex;
+			justify-content: center;
+			flex: 0.2;
+		}
+
+		.record_container:first-child{
+			font-weight: bold;
+			font-family: sans-serif;
+			font-size: 1.8vh;
+		}
+
+		#grand_total_wrapper{
+			display: flex;			
+		}
+
+		#grand_total_label{
+			flex: 0.8;
+		}
+
+		#grand_total_container{
+			flex: 0.2;			
+		}
+
+
 	</style>
 </head>
 <body>
@@ -89,7 +168,7 @@
 	</select>
 
 	<input type="text" name="query">
-	<span id="search" onclick = "fetchDataWithKeyword()">&#x1F50D;</span>
+			<span id="search" onclick = "fetchDataWithKeyword()">&#x1F50D;</span>
 
 	<img id="trolley" src="../res/shopping_trolley.png" />
 
@@ -101,11 +180,48 @@
 		
 	</div>
 
-	<script>
+	<div id = "overlay">
+	</div>
 
+
+	<div id = "checkout">
+			<b> <center>Bill</center> </b>
+			<hr>
+			<div id = "checkout_list">
+				<div class = "record_container">
+					<span class="item_name">Item Name</span>
+					<span class="quantity">Quantity</span>
+					<span class="pip">Per Item Price</span>
+					<span class="sub_total">SubTotal</span>
+				</div>
+			</div>
+			<hr>
+			<div id = "grand_total_wrapper">
+				<span id = "grand_total_label"><b>GRAND TOTAL</b></span>
+				<span id = "grand_total_container">***</span>
+			</div>
+	</div>
+
+	<script>
+		addToShoppingCart()
+
+		var cart_sym = document.getElementById("trolley")
+
+		cart_sym.addEventListener("click", function(e){
+			document.getElementById("overlay").style.display = "block"
+			document.getElementById("checkout").style.display = "block"
+
+			document.getElementById("overlay").addEventListener("click", remover)
+
+			function remover(){
+				document.getElementById("overlay").style.display = "none"
+				document.getElementById("checkout").style.display = "none"
+
+				document.getElementById("overlay").removeEventListener("click", remover)
+			}
+		})
 
 		function fetchDataWithKeyword(){
-
 			var selectedCuisine = document.getElementsByTagName("select")[0].value
 			var keywords = document.querySelector("input[name='query']").value
 			keywords = keywords.replace(" ", "+")					
@@ -138,9 +254,55 @@
 		}
 
 		function addToShoppingCart(e){							
-			fetch("cart.php?item="+e.srcElement.getAttribute("data-item")+"&num="+1).then(function(data){
+			var link = "cart.php"
+			if(e)
+				link += "?item="+e.srcElement.getAttribute("data-item")+"&num="+1			
+
+			fetch(link).then(function(data){
 				data.text().then(function(status){
-					console.log(JSON.parse(status))
+					var cart = JSON.parse(status)
+
+					var items = Object.keys(cart)
+					var bill = document.getElementById("checkout_list")
+
+					while(bill.lastChild != bill.firstElementChild){
+						bill.removeChild(bill.lastChild)
+					}
+
+
+					var GRAND_TOTAL = 0
+
+					for(let item_name of items){
+						var record_container = document.createElement("div")
+						record_container.className = "record_container"
+
+						var key = document.createElement("span")
+						var value = document.createElement("span")
+						var pip = document.createElement("span")
+						var subTotal = document.createElement("span")
+
+						key.className = "item_name"
+						value.className = "quantity"
+						pip.className = "pip"
+						subTotal.className = "sub_total"
+
+						record_container.appendChild(key)
+						record_container.appendChild(value)
+						record_container.appendChild(pip)
+						record_container.appendChild(subTotal)
+
+						key.textContent = item_name
+						value.textContent = cart[item_name].quantity	
+						pip.textContent = cart[item_name].price
+						subTotal.textContent = cart[item_name].quantity	* cart[item_name].price
+
+						GRAND_TOTAL += cart[item_name].quantity	* cart[item_name].price
+
+						bill.appendChild(record_container)
+					}
+
+
+					document.getElementById("grand_total_container").innerText = GRAND_TOTAL
 				})
 			})
 		}

@@ -1,0 +1,8 @@
+Apples:90
+Biscuits:100
+Capsicum:100
+cornflakes:150
+Grapes:100
+oats:150
+Peanut Butter:300
+Tomato:80
