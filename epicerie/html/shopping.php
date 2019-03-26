@@ -36,7 +36,7 @@
 
 		.price{
 			color: green;			
-7		}
+		}
 
 		#search{
 			padding: 3px 5px 5px 5px;
@@ -69,6 +69,15 @@
 			top: 1%;
 		}
 
+		#wallet{
+			height: 3.5vh;
+			width: 3.5vh;
+
+			position: absolute;
+			right: 5%;
+			top: 1.5%;
+		}
+
 		#overlay{
 			height: 100vh;
 			width: 100vw;
@@ -81,6 +90,20 @@
 		}
 
 		#checkout{
+			background-color: white;
+			height: auto;
+			width: 30vw;
+
+			padding: 10px;
+
+			display: none;
+
+			position: fixed;
+			top: 10%;
+			left: 35%;
+		}
+
+		#wallet_display{
 			background-color: white;
 			height: auto;
 			width: 30vw;
@@ -140,8 +163,6 @@
 		#grand_total_container{
 			flex: 0.2;			
 		}
-
-
 	</style>
 </head>
 <body>
@@ -170,6 +191,7 @@
 	<input type="text" name="query">
 			<span id="search" onclick = "fetchDataWithKeyword()">&#x1F50D;</span>
 
+	<img id="wallet" src="../res/wallet.png" />
 	<img id="trolley" src="../res/shopping_trolley.png" />
 
 	<div id = "cart_container">
@@ -198,8 +220,20 @@
 			<hr>
 			<div id = "grand_total_wrapper">
 				<span id = "grand_total_label"><b>GRAND TOTAL</b></span>
-				<span id = "grand_total_container">***</span>
+				<span id = "grand_total_container">
+						<span>&#8377;</span>
+						<span id = "real_grand_total">***</span>
+				</span>
 			</div>
+	</div>
+
+	<div id = "wallet_display">
+			<b> <center>Wallet</center> </b>
+			<div class = "wallet_container">
+					<span class="Current Balance">Current Balance</span>
+			</div>
+
+
 	</div>
 
 	<script>
@@ -216,6 +250,22 @@
 			function remover(){
 				document.getElementById("overlay").style.display = "none"
 				document.getElementById("checkout").style.display = "none"
+
+				document.getElementById("overlay").removeEventListener("click", remover)
+			}
+		})
+
+		var wallet_sym = document.getElementById("wallet")
+
+		wallet_sym.addEventListener("click", function(e){
+			document.getElementById("overlay").style.display = "block"
+			document.getElementById("wallet_display").style.display = "block"
+
+			document.getElementById("overlay").addEventListener("click", remover)
+
+			function remover(){
+				document.getElementById("overlay").style.display = "none"
+				document.getElementById("wallet_display").style.display = "none"
 
 				document.getElementById("overlay").removeEventListener("click", remover)
 			}
@@ -302,7 +352,7 @@
 					}
 
 
-					document.getElementById("grand_total_container").innerText = GRAND_TOTAL
+					document.getElementById("real_grand_total").innerText = GRAND_TOTAL
 				})
 			})
 		}
