@@ -1,7 +1,8 @@
 <?php
+    session_start();
 
     $uname = $_GET["username"];
-    $pass = $_GET["password"];
+    $pass = $_GET["password"];    
 
     $conn = new mysqli("localhost:3306", "root", "", "epicerie");
 
@@ -15,6 +16,13 @@
     }
 
     if($result->num_rows > 0){
+        $row = $result->fetch_assoc();
+
+        $SESSION["username"] = $uname;
+        $SESSION["credit_avail"] = $row["credit"];
+        $SESSION["credit_limit"] = $row["credit_limit"];
+
+
         echo "shopping.php";
         
     }else{

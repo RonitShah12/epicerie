@@ -88,7 +88,7 @@
 		}
 	}
 
-
+    $grandtotal=0;
 	$obj = "{";
 
 	foreach($_SESSION["cart"] as $element)  {
@@ -96,11 +96,15 @@
 															"\"quantity\":".($element->num) .",".
 															"\"price\":".( $itemPriceMap[$element->item] ).
 														"}".",");		
+		$grandtotal += ($element->num) * ( $itemPriceMap[$element->item] );
 	}
+
 	$obj = substr($obj, 0, strlen($obj) - 1);
 	$obj = $obj."}";
 
 	echo $obj;
+	$SESSION["grandtotal"]=$grandtotal;
+
 
 	function cart_element($item, $num){
 		$obj = new stdClass();

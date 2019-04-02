@@ -229,6 +229,7 @@
 
 	<div id = "wallet_display">
 			<b> <center>Wallet</center> </b>
+			<hr>
 			<div class = "wallet_container">
 					<span class="Current Balance">Current Balance</span>
 			</div>

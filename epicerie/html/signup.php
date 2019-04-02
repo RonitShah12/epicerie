@@ -5,7 +5,7 @@
 
     $conn = new mysqli("localhost:3306", "root", "", "epicerie");
 
-    $sql = "insert into login values('$uname', '". hash("md5", $pass) ."')";
+    $sql = "insert into login (username, password) values('$uname', '". hash("md5", $pass) ."')";
     $result = $conn->query($sql);    
 
     if( $result ){
